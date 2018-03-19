@@ -44,10 +44,52 @@
         top: 650px;
         left: 44px;
       }
+      :host([count="0"]) #middle-middle {
+        visibility: hidden;
+      }
+      :host([count="1"]) #top-middle, 
+      :host([count="1"]) #top-left, 
+      :host([count="1"]) #middle-middle, 
+      :host([count="1"]) #bottom-left, 
+      :host([count="1"]) #bottom-middle {
+        visibility: hidden;
+      }
+      :host([count="2"]) #top-left, 
+      :host([count="2"]) #bottom-right { 
+        visibility: hidden;
+      }
+      :host([count="3"]) #top-left, 
+      :host([count="3"]) #bottom-left { 
+        visibility: hidden;
+      }
+      :host([count="4"]) #top-middle, 
+      :host([count="4"]) #bottom-left, 
+      :host([count="4"]) #bottom-middle {
+        visibility: hidden;
+      }
+      :host([count="5"]) #top-right,  
+      :host([count="5"]) #bottom-left {
+        visibility: hidden;
+      }
+      :host([count="6"]) #top-right { 
+        visibility: hidden;
+      }
+      :host([count="7"]) #top-left, 
+      :host([count="7"]) #middle-middle, 
+      :host([count="7"]) #bottom-left, 
+      :host([count="7"]) #bottom-middle {
+        visibility: hidden;
+      }
+      /*:host([count="8"]) { 
+        visibility: hidden;
+      }*/
+      :host([count="9"]) #bottom-left { 
+        visibility: hidden;
+      }
     </style>
     
     <!-- shadow DOM goes here-->
-    <div class="digit-container">
+    <div class="digit-container" on-click="increment">
       <img src="segment-horizontal.png" id="top-middle">
       <img src="segment-vertical.png"   id="top-left">
       <img src="segment-vertical.png"   id="top-right">
@@ -67,9 +109,13 @@
             type: Number,
             notify: true,
             reflectToAttribute: true,
-            value: true
+            value: 8
           }
         }
+      }
+      increment() {
+        if(this.count < 9) this.count += 1
+        else this.count = 0
       }
       constructor() {
         super();
