@@ -1,0 +1,79 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<dom-module id="single-digit">
+  <template>
+    <style>
+      .digit-container {
+        position: relative;
+        top: 0;
+        left: 0;
+      }
+      #top-middle {
+        position: absolute;
+        top: 0;
+        left: 39px;
+      }
+      #top-left {
+        position: absolute;
+        top: 39px;
+        left: 0;
+      }
+      #top-right {
+        position: absolute;
+        top: 39px;
+        left: 315px;
+      }
+      #middle-middle {
+        position: absolute;
+        top: 315px;
+        left: 39px;
+      }
+      #bottom-left {
+        position: absolute;
+        top: 354px;
+        left: 0;
+      }
+      #bottom-right {
+        position: absolute;
+        top: 354px;
+        left: 315px;
+      }
+      #bottom-middle {
+        position: absolute;
+        top: 630px;
+        left: 39px;
+      }
+    </style>
+    
+    <!-- shadow DOM goes here-->
+    <div class="digit-container">
+      <img src="segment-horizontal.png" id="top-middle">
+      <img src="segment-vertical.png"   id="top-left">
+      <img src="segment-vertical.png"   id="top-right">
+      <img src="segment-horizontal.png" id="middle-middle">
+      <img src="segment-vertical.png"   id="bottom-left">
+      <img src="segment-vertical.png"   id="bottom-right">
+      <img src="segment-horizontal.png" id="bottom-middle">
+    </div>
+  </template>
+  
+  <script>
+    class SingleDigit extends Polymer.Element { 
+      static get is() { return 'single-digit'; }      
+      static get properties() {
+        return {
+          count: {
+            type: Number,
+            notify: true,
+            reflectToAttribute: true,
+            value: true
+          }
+        }
+      }
+      constructor() {
+        super();
+      }
+    }
+    customElements.define(SingleDigit.is, SingleDigit);
+  </script>
+</dom-module>
