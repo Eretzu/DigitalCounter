@@ -80,16 +80,13 @@
       :host([count="7"]) #bottom-middle {
         visibility: hidden;
       }
-      /*:host([count="8"]) { 
-        visibility: hidden;
-      }*/
       :host([count="9"]) #bottom-left { 
         visibility: hidden;
       }
     </style>
     
     <!-- shadow DOM goes here-->
-    <div class="digit-container" on-click="increment">
+    <div class="digit-container">
       <img src="segment-horizontal.png" id="top-middle">
       <img src="segment-vertical.png"   id="top-left">
       <img src="segment-vertical.png"   id="top-right">
@@ -102,7 +99,8 @@
   
   <script>
     class SingleDigit extends Polymer.Element { 
-      static get is() { return 'single-digit'; }      
+      static get is() { return 'single-digit'; } 
+           
       static get properties() {
         return {
           count: {
@@ -113,12 +111,16 @@
           }
         }
       }
+      
       increment() {
-        if(this.count < 9) this.count += 1
-        else this.count = 0
-      }
-      constructor() {
-        super();
+        if(this.count < 9) {
+          this.count += 1;
+          return 0;
+        }
+        else {
+          this.count = 0
+          return 1;
+        }
       }
     }
     customElements.define(SingleDigit.is, SingleDigit);

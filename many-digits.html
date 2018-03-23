@@ -1,0 +1,53 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="single-digit.html">
+<dom-module id="many-digits">
+  <template>
+    <style>
+    </style>
+  </template>
+    
+  <script>
+    class ManyDigits extends Polymer.Element { 
+      static get is() { return 'many-digits'; } 
+      
+      static get properties() {
+        return {
+          maximum: {
+            type: Number
+            //readOnly: true
+          },
+          count: {
+            type: Number
+          }
+        }
+      }
+      
+      connectedCallback() {
+        super.connectedCallback();
+
+        var temp = this.maximum;
+        var digits = 0;
+        while(temp >= 1) { 
+          digits++;
+          temp = temp/10; 
+        }
+        
+        temp = this.maximum;
+        while(digits > 0) {
+          digits--;
+          
+          var digit = document.createElement("single-digit"); 
+          digit.id = "SingleDigit"+digits;
+          digit.count = Math.floor(temp/Math.pow(10,digits));
+          this.shadowRoot.appendChild(digit);
+          
+          temp = Math.floor(temp%Math.pow(10,digits));
+        }
+      }
+      
+      increment() {
+      }
+    }
+    customElements.define(ManyDigits.is, ManyDigits);
+  </script>
+</dom-module>
