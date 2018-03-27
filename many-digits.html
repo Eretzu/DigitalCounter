@@ -20,7 +20,7 @@
             //readOnly: true
           },
           nroOfDigits: {
-            type: Number
+            type: Number,
           }
         }
       }
@@ -36,14 +36,13 @@
         }
         
         temp = this.maximum;
-        this.nroOfDigits = digits - 1; // We want single digits to start with 0
+        this.nroOfDigits = digits; // We want single digits to start with 0
         while(digits > 0) {
           digits--; // We want single digits to start with 0
           
           var digit = document.createElement("single-digit"); 
           digit.id = "SingleDigit"+digits;
           digit.count = Math.floor(temp/Math.pow(10,digits));
-          digit.maximum = Math.floor(temp/Math.pow(10,digits));
           this.shadowRoot.appendChild(digit);
           
           temp = Math.floor(temp%Math.pow(10,digits));
@@ -56,21 +55,31 @@
       }
       
       _count() {
-        var i = nroOfDigits;
+        var i = this.nroOfDigits - 1;
         var count = "";
         do {
           count += this.shadowRoot.getElementById("SingleDigit"+i).count;
-        } while( --i >= 0 )
+        } 
+        while ( --i >= 0 );
         return parseInt(count);
+      }
+      
+      _reset() {
+        var i = 0;
+        while(i < this.nroOfDigits) {
+          this.shadowRoot.getElementById("SingleDigit"+i).count = 0;
+          i++;
+        }
       }
       
       _increment(event) {
         var i = 0;
         while(this.shadowRoot.getElementById("SingleDigit"+i)._increment() == 1) {
           i++;
-          if(i > this.nroOfDigits) {
-            return 1;
-          }
+        }
+        if(this._count() > this.maximum) {
+          this._reset()
+          return 1;
         }
         return 0;
       }

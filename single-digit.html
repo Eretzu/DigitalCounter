@@ -114,16 +114,12 @@
             notify: true,
             reflectToAttribute: true,
             value: 8
-          },
-          maximum: {
-            type: Number,
-            //readOnly: true
           }
         }
       }
       
       _increment() {
-        if(this.count < this.maximum) {
+        if(this.count < 9) {
           this.count += 1;
           return 0;
         }
