@@ -1,8 +1,11 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="single-digit.html">
-<dom-module id="many-digits">
+<dom-module id="many-digits" onclick="increment()">
   <template>
     <style>
+      :host {
+        display: block;
+      }
     </style>
   </template>
     
@@ -16,7 +19,7 @@
             type: Number
             //readOnly: true
           },
-          count: {
+          nroOfDigits: {
             type: Number
           }
         }
@@ -24,7 +27,7 @@
       
       connectedCallback() {
         super.connectedCallback();
-
+        
         var temp = this.maximum;
         var digits = 0;
         while(temp >= 1) { 
@@ -33,19 +36,43 @@
         }
         
         temp = this.maximum;
+        this.nroOfDigits = digits - 1; // We want single digits to start with 0
         while(digits > 0) {
-          digits--;
+          digits--; // We want single digits to start with 0
           
           var digit = document.createElement("single-digit"); 
           digit.id = "SingleDigit"+digits;
           digit.count = Math.floor(temp/Math.pow(10,digits));
+          digit.maximum = Math.floor(temp/Math.pow(10,digits));
           this.shadowRoot.appendChild(digit);
           
           temp = Math.floor(temp%Math.pow(10,digits));
         }
       }
       
-      increment() {
+      ready() {        
+        super.ready();
+        this.addEventListener('click', this._increment);
+      }
+      
+      _count() {
+        var i = nroOfDigits;
+        var count = "";
+        do {
+          count += this.shadowRoot.getElementById("SingleDigit"+i).count;
+        } while( --i >= 0 )
+        return parseInt(count);
+      }
+      
+      _increment(event) {
+        var i = 0;
+        while(this.shadowRoot.getElementById("SingleDigit"+i)._increment() == 1) {
+          i++;
+          if(i > this.nroOfDigits) {
+            return 1;
+          }
+        }
+        return 0;
       }
     }
     customElements.define(ManyDigits.is, ManyDigits);

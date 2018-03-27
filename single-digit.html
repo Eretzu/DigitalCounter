@@ -3,12 +3,12 @@
 <dom-module id="single-digit">
   <template>
     <style>
-      .digit-container {
+      /*.digit-container {
         display: inline-block;
         position: relative;
         height: 738px;
         width: 414px;
-      }
+      }*/
       #top-middle {
         position: absolute;
         top: 0;
@@ -43,6 +43,12 @@
         position: absolute;
         top: 650px;
         left: 44px;
+      }
+      :host {
+        display: inline-block; 
+        position: relative;
+        height: 738px;
+        width: 414px;
       }
       :host([count="0"]) #middle-middle {
         visibility: hidden;
@@ -86,7 +92,7 @@
     </style>
     
     <!-- shadow DOM goes here-->
-    <div class="digit-container">
+    <!--<div class="digit-container">-->
       <img src="segment-horizontal.png" id="top-middle">
       <img src="segment-vertical.png"   id="top-left">
       <img src="segment-vertical.png"   id="top-right">
@@ -94,7 +100,7 @@
       <img src="segment-vertical.png"   id="bottom-left">
       <img src="segment-vertical.png"   id="bottom-right">
       <img src="segment-horizontal.png" id="bottom-middle">
-    </div>
+    <!--</div>-->
   </template>
   
   <script>
@@ -108,12 +114,16 @@
             notify: true,
             reflectToAttribute: true,
             value: 8
+          },
+          maximum: {
+            type: Number,
+            //readOnly: true
           }
         }
       }
       
-      increment() {
-        if(this.count < 9) {
+      _increment() {
+        if(this.count < this.maximum) {
           this.count += 1;
           return 0;
         }
