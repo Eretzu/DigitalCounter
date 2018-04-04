@@ -4,7 +4,7 @@
   <template>
     <style>
       :host {
-        display: block;
+        display: inline-block;
       }
     </style>
   </template>
@@ -24,6 +24,11 @@
           }
         }
       }
+
+      /*ready() {        
+        super.ready();
+        this.addEventListener('click', this._increment);
+      }*/
       
       connectedCallback() {
         super.connectedCallback();
@@ -41,7 +46,7 @@
           digits--; // We want single digits to start with 0
           
           var digit = document.createElement("single-digit"); 
-          digit.id = "SingleDigit"+digits;
+          digit.id = digits;
           digit.count = Math.floor(temp/Math.pow(10,digits));
           this.shadowRoot.appendChild(digit);
           
@@ -49,16 +54,11 @@
         }
       }
       
-      ready() {        
-        super.ready();
-        this.addEventListener('click', this._increment);
-      }
-      
       _count() {
         var i = this.nroOfDigits - 1;
         var count = "";
         do {
-          count += this.shadowRoot.getElementById("SingleDigit"+i).count;
+          count += this.shadowRoot.getElementById(i).count;
         } 
         while ( --i >= 0 );
         return parseInt(count);
@@ -67,14 +67,14 @@
       _reset() {
         var i = 0;
         while(i < this.nroOfDigits) {
-          this.shadowRoot.getElementById("SingleDigit"+i).count = 0;
+          this.shadowRoot.getElementById(i).count = 0;
           i++;
         }
       }
       
-      _increment(event) {
+      _increment() {
         var i = 0;
-        while(this.shadowRoot.getElementById("SingleDigit"+i)._increment() == 1) {
+        while(this.shadowRoot.getElementById(i)._increment() == 1) {
           i++;
         }
         if(this._count() > this.maximum) {

@@ -1,16 +1,70 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 
-<dom-module id="single-digit">
+<dom-module id="digital-counter">
   <template>
     <style>
+      span {
+        font-size: 120px;
+      }
     </style>
   </template>
     
   <script>
     class DigitalCounter extends Polymer.Element { 
-      static get is() { return 'digital-counter'; } 
-      constructor() {
-        super();
+      static get is() { return 'digital-counter'; }      
+      
+      static get properties() {
+        return {
+          setup: {
+            type: String
+            //readOnly: true
+          },
+          nroOfSeries: {
+            type: Number
+          }
+        }
+      }
+      
+      connectedCallback() {
+        super.connectedCallback();
+        var arr = this.setup.split(/(\d+)/).filter(function(a){ return a != ""; });
+        var series = 0;
+        for (var i = 0; i < arr.length; i++ ) {
+          if (isNaN(arr[i])) {
+            var span = document.createElement("span");
+            span.innerHTML = arr[i];
+            this.shadowRoot.appendChild(span);
+          } else {
+            var many = document.createElement("many-digits");
+            many.id = series;
+            many.maximum = parseInt(arr[i]);
+            this.shadowRoot.appendChild(many);
+            series++;
+          }
+        }
+        this.nroOfSeries = series;
+      }
+      
+      ready() {        
+        super.ready();
+        this.addEventListener('click', this._increment);
+      }
+      
+      _count() {
+        var i = this.nroOfSeries - 1;
+        var count = 0;
+        do {
+          count += this.shadowRoot.getElementById(i)._count();
+        } 
+        while ( --i >= 0 );
+        return count;
+      }
+      
+      _increment(event) {
+        var i = this.nroOfSeries;
+        while(this.shadowRoot.getElementById(i)._increment() == 1) {
+          i--;
+        }
       }
     }
     customElements.define(DigitalCounter.is, DigitalCounter);
